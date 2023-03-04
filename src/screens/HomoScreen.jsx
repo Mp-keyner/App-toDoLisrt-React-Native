@@ -1,22 +1,16 @@
 import { StyleSheet, View, Text, Dimensions, TouchableOpacity, TextInput, FlatList } from 'react-native'
 import React, { useState } from 'react'
 import TaskIten from '../components/TaskIten'
+import ListHeader from '../components/ListHeader'
+import useTask from '../hooks/useTask'
 
 
 const screensHeigth = Dimensions.get("screen").height
 
 export const HomoScreen = () => {
 
-    const [addNew, setAddNew] = useState(false)
-    const [task, setTask] = useState('')
-    const [tasks, setTasks] = useState(['Programar App to do'])
-
-    const addTask = () => {
-        setTasks(currentTasks => [...currentTasks, task])
-        setTask('')
-        setAddNew(false)
-    }
-
+    const { addTask, deleteTask, task, tasks, editTask, addNew, updateNew } = useTask()
+    // console.log(addNew)
     return (
         <View style={{ marginHorizontal: 10 }}>
 
@@ -27,7 +21,7 @@ export const HomoScreen = () => {
                             style={styles.input}
                             placeholder='Agregar nueva tarea...'
                             value={task}
-                            onChangeText={setTask}
+                            onChangeText={editTask()}
                         />
                         <View style={{ marginVertical: 10, flexDirection: 'row' }}>
                             <TouchableOpacity
@@ -40,8 +34,8 @@ export const HomoScreen = () => {
                             <TouchableOpacity
                                 style={[styles.button, styles.cancelButton]}
                                 onPress={() => {
-                                    setAddNew(false)
-                                    setTask('')
+                                    updateNew(false)
+                                    editTask('')
                                 }}
                             >
                                 <Text
@@ -57,7 +51,9 @@ export const HomoScreen = () => {
                 <FlatList
                     data={tasks}
                     keyExtractor={(item) => item}
-                    renderItem={({ item, index }) => <TaskIten task={item} index={index} />}
+                    renderItem={({ item, index }) => <TaskIten task={item} onPress={() => deleteTask(index)} />}
+                    ListHeaderComponent={() => <ListHeader />}
+                    ItemSeparatorComponent={() => <View style={{ marginVertical: 5 }} />}
                 />
             </View>
 
@@ -68,7 +64,7 @@ export const HomoScreen = () => {
                     style={styles.addButton}
                     onPress={() => {
                         console.log("recibido")
-                        setAddNew(true)
+                        updateNew(true)
                     }}
                 >
                     <Text style={styles.addButtonText} >+</Text>
