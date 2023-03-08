@@ -3,52 +3,30 @@ import React, { useState } from 'react'
 import TaskIten from '../components/TaskIten'
 import ListHeader from '../components/ListHeader'
 import useTask from '../hooks/useTask'
+import Lista from '../components/Lista'
 
 
 const screensHeigth = Dimensions.get("screen").height
 
 export const HomoScreen = () => {
 
-    const { addTask, deleteTask, task, tasks, editTask, addNew, updateNew } = useTask()
-    // console.log(addNew)
+    const { addTask, deleteTask, task, tasks, editTask, addNew, updateNew, setTasks } = useTask()
+
     return (
         <View style={{ marginHorizontal: 10 }}>
 
             {
                 addNew && (
-                    <View>
-                        <TextInput
-                            style={styles.input}
-                            placeholder='Agregar nueva tarea...'
-                            value={task}
-                            onChangeText={editTask()}
-                        />
-                        <View style={{ marginVertical: 10, flexDirection: 'row' }}>
-                            <TouchableOpacity
-                                style={[styles.button, styles.accepButton]}
-                                onPress={() => addTask()}
-                            >
-                                <Text style={styles.buttonText}>Agregar</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                style={[styles.button, styles.cancelButton]}
-                                onPress={() => {
-                                    updateNew(false)
-                                    editTask('')
-                                }}
-                            >
-                                <Text
-                                    style={styles.buttonText}
-                                >Cancelar</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+                    <Lista task={task} editTask={editTask} addTask={addTask} updateNew={updateNew} setTasks={setTasks} />
                 )
             }
-
             <View>
                 <FlatList
+                    ListEmptyComponent={
+                        <View>
+                            <Text>Esta vacio papa</Text>
+                        </View>
+                    }
                     data={tasks}
                     keyExtractor={(item) => item}
                     renderItem={({ item, index }) => <TaskIten task={item} onPress={() => deleteTask(index)} />}

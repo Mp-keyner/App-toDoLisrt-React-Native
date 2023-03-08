@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 const useTask = () => {
     const [task, setTask] = useState('')
-    const [tasks, setTasks] = useState(['Programar App to do', 'Arreglar Araña para el evento del 14'])
+    const [tasks, setTasks] = useState([' Programar App to do', 'Arreglar Araña para el evento del 14', 'resolver los problemas con la to do App'])
     const [addNew, setAddNew] = useState(false)
 
     const addTask = () => {
@@ -11,11 +11,14 @@ const useTask = () => {
         setAddNew(false)
     }
     const deleteTask = (index) => {
-        let temp = [...tasks]
-        temp.splice(index, 1)
-        setTasks(temp)
-        console.log(temp)
+        const quieroFiltrarEste = tasks.filter((task, i) =>  i !== index) 
+        console.log(quieroFiltrarEste)
+        // let temp = [...tasks]
+        // temp.splice(index, 1)
+        setTasks(quieroFiltrarEste )
+        // console.log(temp)
     }
+
     const updateNew = (stado) => {
         setAddNew(stado)
     }
@@ -23,14 +26,16 @@ const useTask = () => {
     const editTask = (text) => {
         setTask(text)
     }
+
     return {
-        addTask,
-        deleteTask,
-        editTask,
-        updateNew,
         addNew,
         task,
         tasks,
+        addTask,
+        deleteTask,
+        editTask,
+        setTasks,
+        updateNew
     }
 }
 
