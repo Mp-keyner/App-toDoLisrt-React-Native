@@ -4,6 +4,7 @@ import TaskIten from '../components/TaskIten'
 import ListHeader from '../components/ListHeader'
 import useTask from '../hooks/useTask'
 import Lista from '../components/Lista'
+import Vacio from '../components/Vacio'
 
 
 const screensHeigth = Dimensions.get("screen").height
@@ -23,9 +24,7 @@ export const HomoScreen = () => {
             <View>
                 <FlatList
                     ListEmptyComponent={
-                        <View>
-                            <Text>Esta vacio papa</Text>
-                        </View>
+                        <Vacio />
                     }
                     data={tasks}
                     keyExtractor={(item) => item}
